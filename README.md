@@ -84,5 +84,10 @@ If we only used a `Vec<Subscriber>` for all subscribers, the code would become l
 `DashMap` is also appropriate here because the publisher can receive multiple requests and later notify subscribers from multiple threads. Compared with a plain `HashMap`, we would otherwise need to add our own synchronization wrapper to avoid data races. With `DashMap`, the repository stays simpler while still being safe for concurrent reads and writes.
 
 #### Reflection Publisher-2
+In MVC, the Model is often described broadly, but separating repository and service layers keeps each unit focused. The repository layer concentrates on data access and storage rules, while the service layer concentrates on business logic and application flow. This follows separation of concerns and makes the code easier to maintain because storage details do not leak into controller code or into the data structs themselves.
+
+If we only used the Model layer for everything, each model would need to know too much. `Product` would need to understand persistence and notification flow, `Subscriber` would need to understand storage and delivery orchestration, and `Notification` could become entangled with request handling. That would increase coupling between models, make changes riskier, and blur the boundary between plain data and business behavior. The result would be heavier models that are harder to test and harder to extend.
+
+Postman helps a lot in this tutorial because the system is driven by HTTP interactions across two applications. It makes it easy to repeat requests for subscribe, unsubscribe, create, publish, and delete without manually rebuilding each request. Features that are especially useful are saved collections, configurable request bodies and query parameters, and the ability to observe response payloads quickly while iterating on endpoint behavior.
 
 #### Reflection Publisher-3
